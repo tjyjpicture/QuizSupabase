@@ -36,7 +36,7 @@ export default async function Home() {
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">
-            员工答题系统
+            员工知识考察系统
           </h1>
           <p className="text-gray-600">
             欢迎回来，{(profile as any)?.username || user.email}
