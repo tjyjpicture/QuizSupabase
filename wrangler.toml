@@ -1,0 +1,8 @@
+name = "quiz"
+compatibility_date = "2024-01-01"
+
+[vars]
+# These values will be overridden by Cloudflare Dashboard environment variables
+NEXT_PUBLIC_SUPABASE_URL = "https://zlvegsnmvdrcjgzkaomz.supabase.co"
+NEXT_PUBLIC_SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InpsdmVnc25tdmRyY2pnemthb216Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM2OTE3MjksImV4cCI6MjA4OTI2NzcyOX0.O6EBZxHrngKDpPTShU24DMdNRoSywmIUxL5Ve8JVVmM
+"
