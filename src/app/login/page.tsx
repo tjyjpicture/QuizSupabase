@@ -95,12 +95,7 @@ export default function LoginPage() {
             <Button type="submit" className="w-full" disabled={loading}>
               {loading ? "登录中..." : "登录"}
             </Button>
-            <p className="text-sm text-center text-muted-foreground">
-              还没有账号？{" "}
-              <Link href="/register" className="text-primary hover:underline">
-                注册
-              </Link>
-            </p>
+           
           </CardFooter>
         </form>
       </Card>

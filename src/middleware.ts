@@ -30,14 +30,16 @@ export async function middleware(request: NextRequest) {
   );
 
   const {
-    data: { user },
-  } = await supabase.auth.getUser();
+    data: { session },
+  } = await supabase.auth.getSession();
 
   const { pathname } = request.nextUrl;
 
   // 公开路径（不需要认证）
   const publicPaths = ['/login', '/register'];
   const isPublicPath = publicPaths.some(path => pathname.startsWith(path));
+
+  const user = session?.user ?? null;
 
   // 如果用户未登录且访问的是受保护路径，重定向到登录页
   if (!user && !isPublicPath && pathname !== '/') {
