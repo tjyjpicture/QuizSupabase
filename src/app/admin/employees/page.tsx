@@ -79,33 +79,29 @@ export default function EmployeesPage() {
     e.preventDefault();
 
     try {
-      const supabase = createBrowserClient(
-        process.env.NEXT_PUBLIC_SUPABASE_URL!,
-        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-      );
-
-      // 创建用户
-      const { data, error } = await supabase.auth.signUp({
-        email: formData.email,
-        password: formData.password,
-        options: {
-          data: {
-            username: formData.username,
-          },
-        },
+      const res = await fetch("/api/admin/users", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password,
+          username: formData.username,
+        }),
       });
 
-      if (error) throw error;
+      const data = await res.json();
 
-      if (data.user) {
-        toast({
-          title: "创建成功",
-          description: `员工 ${formData.username} 已创建`,
-        });
-        setDialogOpen(false);
-        setFormData({ username: "", email: "", password: "" });
-        fetchEmployees();
+      if (!res.ok) {
+        throw new Error(data.error || "创建员工时出错");
       }
+
+      toast({
+        title: "创建成功",
+        description: `员工 ${formData.username} 已创建`,
+      });
+      setDialogOpen(false);
+      setFormData({ username: "", email: "", password: "" });
+      fetchEmployees();
     } catch (error: any) {
       console.error("Error creating employee:", error);
       toast({
@@ -118,26 +114,23 @@ export default function EmployeesPage() {
 
   const handleDelete = async (id: string) => {
     try {
-      const supabase = createBrowserClient(
-        process.env.NEXT_PUBLIC_SUPABASE_URL!,
-        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-      );
+      const res = await fetch(`/api/admin/users/${id}`, {
+        method: "DELETE",
+      });
 
-      // 软删除：从 profiles 表删除
-      const { error } = await supabase
-        .from("profiles")
-        .delete()
-        .eq("id", id);
+      const data = await res.json();
 
-      if (error) throw error;
+      if (!res.ok) {
+        throw new Error(data.error || "删除失败");
+      }
 
-      toast({ title: "删除成功", description: "员工已删除" });
+      toast({ title: "删除成功", description: "员工及其账号已删除" });
       fetchEmployees();
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error deleting employee:", error);
       toast({
         title: "删除失败",
-        description: "删除员工时出错",
+        description: error.message || "删除员工时出错",
         variant: "destructive",
       });
     }
